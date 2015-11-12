@@ -11,11 +11,7 @@ public class CameraScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (transform.rotation.y > 0) {	
-			transform.Rotate (new Vector3 (0, speed * Time.deltaTime));
-		}
-		if (transform.rotation.y >= 90) {	
-			transform.Rotate (new Vector3 (0, -speed * Time.deltaTime));
-		}
+
+			transform.Rotate (new Vector3 (0, speed * Time.deltaTime * Input.GetAxis ("Mouse X")));
 	}
 }
