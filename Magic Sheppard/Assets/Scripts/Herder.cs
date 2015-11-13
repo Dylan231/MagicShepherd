@@ -5,8 +5,8 @@ public class Herder : MonoBehaviour {
 	float speed = 15;
 	float rotatespeed = 10;
     float rotatecamera = 8;
-    float positiecameray = 2;
-    float positiecameraz = -0.02f;
+    float positiecameray = 4;
+    float positiecameraz = 1;
 	// Use this for initialization
 	void Start () {
 	}
@@ -24,13 +24,13 @@ public class Herder : MonoBehaviour {
 		}
         if (Input.GetAxis("Mouse Y")>0)
         {
-            C.transform.Rotate(new Vector3(rotatecamera * Input.GetAxis("Mouse Y"),0,0));
-            C.transform.Translate(new Vector3(0, positiecameray * Input.GetAxis("Mouse Y"), positiecameraz * Input.GetAxis("Mouse Y")));
+            C.transform.Rotate(new Vector3(rotatecamera * Input.GetAxis("Mouse Y")*Time.deltaTime,0,0));
+            C.transform.Translate(new Vector3(0, positiecameray * Input.GetAxis("Mouse Y") * Time.deltaTime, positiecameraz * Input.GetAxis("Mouse Y") * Time.deltaTime));
         }
         if (Input.GetAxis("Mouse Y")<0)
         {
-            C.transform.Rotate(new Vector3(rotatecamera * Input.GetAxis("Mouse Y"), 0, 0));
-            C.transform.Translate(new Vector3(0, positiecameray * Input.GetAxis("Mouse Y"), positiecameraz * Input.GetAxis("Mouse Y")));
+            C.transform.Rotate(new Vector3(rotatecamera * Input.GetAxis("Mouse Y")* Time.deltaTime, 0, 0));
+            C.transform.Translate(new Vector3(0, positiecameray * Input.GetAxis("Mouse Y") * Time.deltaTime, positiecameraz * Input.GetAxis("Mouse Y") * Time.deltaTime));
         }
 
 		if(Input.GetKey(KeyCode.UpArrow))
