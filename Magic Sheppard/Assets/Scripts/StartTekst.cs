@@ -9,8 +9,7 @@ public class StartTekst : MonoBehaviour {
 	}
 	
 	void OnMouseEnter() {
-		transform.Translate (new Vector3(10, 0, 0));
-		
+
 	}
 	void OnMouseOver() {
 		if (Input.GetMouseButtonDown (0)) {
@@ -18,6 +17,5 @@ public class StartTekst : MonoBehaviour {
 		}
 	}
 	void OnMouseExit() {
-		transform.Translate (new Vector3(-10, 0, 0));
 	}
 }
