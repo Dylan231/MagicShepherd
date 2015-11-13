@@ -14,30 +14,30 @@ public class HondScript : MonoBehaviour {
     void Update()
     {
         var H = GameObject.FindGameObjectWithTag("Herder");
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKey(KeyCode.Alpha2))
         {
             transform.parent = null;
             rennen = true;
             
-            if (rennen)
-            {
                 StartCoroutine(TimerHond());
-            }
         }
     }
 
     IEnumerator TimerHond()
     {
-        RennenHond();
-        yield return new WaitForSeconds(2);
+        while (rennen)
+        {
+            RennenHond();
+            yield return new WaitForSeconds(2);
+            rennen = false;
+        }
         gameObject.SetActive(false);
         ReturnBeginHond();
-        rennen = false;
     }
 
     void RennenHond()
     {
-        transform.position = transform.forward * speed * Time.deltaTime;
+        transform.Translate(new Vector3(0, 0, speed * Time.deltaTime));
     }
 
     void ReturnBeginHond()

@@ -13,12 +13,14 @@ public class GraanWinkelScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	    if (Input.GetKeyDown("mouse 0"))
-        {
-            aantalgraangekocht = aantalgraangekocht + 1;
-            SetAantalGraan();
-        }
+
 	}
+
+    void OnMouseDown()
+    {
+        aantalgraangekocht = aantalgraangekocht + 1;
+        SetAantalGraan();
+    }
 
     void SetAantalGraan()
     {

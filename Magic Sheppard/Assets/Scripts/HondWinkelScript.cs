@@ -15,11 +15,13 @@ public class HondWinkelScript : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("mouse 0"))
-        {
-            aantalhondgekocht = aantalhondgekocht + 1;
-            SetAantalHond();
-        }
+
+    }
+
+    void OnMouseDown()
+    {
+        aantalhondgekocht = aantalhondgekocht + 1;
+        SetAantalHond();
     }
 
     void SetAantalHond()

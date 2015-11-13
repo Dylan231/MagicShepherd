@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CameraScript : MonoBehaviour {
 
-	float speed = 100;
+	float speed = 30;
 	// Use this for initialization
 	void Start () {
 	
