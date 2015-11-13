@@ -17,7 +17,7 @@ public class GraanScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		var H = GameObject.FindGameObjectWithTag ("Herder");
-		if (aantalgraangekocht > 0 && Input.GetKeyDown("space") && graantje == true)
+		if (aantalgraangekocht > 0 && Input.GetKeyDown(KeyCode.Alpha1) && graantje == true)
 		{
             transform.parent = null;
             Vector3 GraanPlek = new Vector3(H.transform.position.x, H.transform.position.y, H.transform.position.z);
