@@ -3,7 +3,6 @@ using System.Collections;
 
 public class HondScript : MonoBehaviour {
     float speed = 15;
-    private bool rennen = false;
 
 	// Use this for initialization
 	void Start () {
@@ -17,27 +16,38 @@ public class HondScript : MonoBehaviour {
         if (Input.GetKey(KeyCode.Alpha2))
         {
             transform.parent = null;
-            rennen = true;
+            StartCoroutine(TimerHond1());
             
-                StartCoroutine(TimerHond());
         }
     }
 
-    IEnumerator TimerHond()
+    IEnumerator TimerHond1()
     {
-        while (rennen)
-        {
-            RennenHond();
-            yield return new WaitForSeconds(2);
-            rennen = false;
-        }
+        InvokeRepeating("RennenHond", 0, 0.2f);
+        yield return new WaitForSeconds(2);
+        CancelInvoke();
+        StartCoroutine(TimerHond2());
+    }
+
+    IEnumerator TimerHond2()
+    {
+        //transform.Rotate(new Vector3(0, 180, 0));
+        InvokeRepeating("DraaienHondenRennen", 0, 0.2f);
+        yield return new WaitForSeconds(2);
+        CancelInvoke();
         gameObject.SetActive(false);
         ReturnBeginHond();
     }
 
     void RennenHond()
     {
-        transform.Translate(new Vector3(0, 0, speed * Time.deltaTime));
+        //transform.Translate(new Vector3(0, 0, speed * Time.deltaTime));
+        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+    }
+
+    void DraaienHondenRennen()
+    {
+        transform.Translate(Vector3.back * speed * Time.deltaTime);
     }
 
     void ReturnBeginHond()
@@ -45,6 +55,7 @@ public class HondScript : MonoBehaviour {
         gameObject.SetActive(true);
         var H = GameObject.FindGameObjectWithTag("Herder");
         Vector3 beginplekhond = new Vector3(H.transform.position.x + 1, H.transform.position.y - 1, H.transform.position.z - 1);
+        transform.Rotate(new Vector3(0, -180, 0));
         transform.position = beginplekhond;
         transform.parent = H.transform;
     }

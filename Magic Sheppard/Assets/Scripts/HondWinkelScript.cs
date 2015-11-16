@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 public class HondWinkelScript : MonoBehaviour {
     public Text AantalHondText;
-    public int aantalhondgekocht = 0;
+    public static int aantalhondgekocht = 0;
 
     // Use this for initialization
     void Start()
@@ -20,12 +19,22 @@ public class HondWinkelScript : MonoBehaviour {
 
     void OnMouseDown()
     {
-        aantalhondgekocht = aantalhondgekocht + 1;
-        SetAantalHond();
+        if (GraanWinkelScript.aantalcoins > 0)
+        {
+            aantalhondgekocht = aantalhondgekocht + 1;
+            SetAantalHond();
+            GraanWinkelScript.aantalcoins = GraanWinkelScript.aantalcoins - 1;
+        }
+            
     }
 
     void SetAantalHond()
     {
         AantalHondText.text = "Hond gekocht: " + aantalhondgekocht;
+    }
+
+    void SetAantalCoins()
+    {
+
     }
 }
