@@ -60,8 +60,8 @@ public class Sheep_AI : MonoBehaviour
     public float rangexx;
     public float rangey;
     public float rangeyy;
-    
-
+    float[] farthestcoords;
+  
     public int sgn(float dy)
     {
         if (dy < 0)
@@ -148,7 +148,7 @@ public class Sheep_AI : MonoBehaviour
     // Checks which distance corresponds to distance x and returns corresponding coordinates. 
     public float[] givefarthestcoords(float dist1,float dist2, float dist3)
     {
-        float[] farthestcoords = new float[2];
+       farthestcoords = new float[2];
 if(dist1 == dist2)
         {
             if (oppositex >= rangex && oppositex <= rangexx && oppositey >= rangey && oppositey <= rangeyy)
@@ -204,6 +204,9 @@ if(dist1 == dist2)
         }
     }
     void FixedUpdate() {
+        float oldposx = rb.position.x;
+        float oldposy = rb.position.y;
+
         //cognitive compponent
         for(int j=0; j< numsheep; j = j + 1)
         {
@@ -304,13 +307,23 @@ if(dist1 == dist2)
             float dist101 = (Mathf.Sqrt(Mathf.Pow(coo[0] - coord2[0], 2) + Mathf.Pow(coo[1] - coord2[1], 2))) + (Mathf.Sqrt(Mathf.Pow(coo[0] - coord3[0], 2) + Mathf.Pow(coo[1] - coord3[1], 2)));
             float dist102 = comp(dist100, dist101);
             comparecoords2(dist102, dist100);
+                float f1 = farthestcoords[0];
             // comparecoords2 contains the position where the sheep in the herd has to go to. 
             // This desired position is calculated for each sheep and is updated whenever the sheep walk to the desired point and have reached it or 
             // when a sheppard comes and scares or lures the sheep. 
 
         }
-    }
-
+            // Now the social component and the cognitive component will be merged together.
+            // The utlimate position for each sheep will be calculated by using the social and cognitive component from this PSO problem. 
+            float c1 = 0.8f;
+            float c2 = 0.2f;
+            float r1 = Random.Range(0f, 1f);
+            float r2 = Random.Range(0f, 1f);
+            float newposx = oldposx + (c1 * r1 * farthestcoords[0]) + (c2 * r2 * cooo[0]);
+            float newposy = oldposy + (c1 * r1 * farthestcoords[1]) + (c2 * r2 * cooo[1]);
+        }
+ 
+}
 }
     
 
