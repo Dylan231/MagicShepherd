@@ -251,7 +251,8 @@ public class Sheep : MonoBehaviour
         //  float oldposy = rb.position.y;
 
         //cognitive compponent
-        for (int t = 0; t < numsheep; t = t + 1) {
+        for (int t = 0; t < numsheep; t = t + 1)
+        {
             GameObject[] goss = GameObject.FindGameObjectsWithTag("Schaap");
             foreach (GameObject go in goss)
             {
@@ -296,13 +297,12 @@ public class Sheep : MonoBehaviour
                 // Now the addition of the social component. 
 
                 GameObject[] gosss = GameObject.FindGameObjectsWithTag("Schaap");
-                foreach (GameObject go1 in gosss) {
+                foreach (GameObject go1 in gosss)
+                {
                     Vector3 Sheep1 = new Vector3(go1.transform.position.x, 0, go1.transform.position.z);
-
-                    for (int i = 0; i < numsheep; i = i + 1) {
-
-                        List<SheepDistance> euclidean3 = new List<SheepDistance>(numsheep);
-
+                    List<SheepDistance> euclidean3 = new List<SheepDistance>(numsheep);
+                    for (int i = 0; i < numsheep; i = i + 1)
+                    {
                         // create a certain amount of sheep with precalculated coordinates in unity. 
                         float euclidean1 = Mathf.Pow((Sheep1.x - sheepx), 2);
                         float euclidean2 = Mathf.Pow((Sheep1.z - sheepy), 2);
@@ -391,3 +391,4 @@ public class Sheep : MonoBehaviour
         }
         // closes update. 
     }
+}
