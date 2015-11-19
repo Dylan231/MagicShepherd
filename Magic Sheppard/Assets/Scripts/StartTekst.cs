@@ -13,7 +13,7 @@ public class StartTekst : MonoBehaviour {
 	}
 	void OnMouseOver() {
 		if (Input.GetMouseButtonDown (0)) {
-			Application.LoadLevel ("Game"); 
+			Application.LoadLevel ("Winkel"); 
 		}
 	}
 	void OnMouseExit() {
