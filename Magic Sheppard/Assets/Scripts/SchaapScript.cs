@@ -60,11 +60,7 @@ public class SchaapScript : MonoBehaviour
     public float rangeyy = 50;
     //private float[] farthestcoords;
     private float speed = 1;
-    private float sheepx;
-    private float sheepy;
     private float[] farthestcoords;
-    private float afstandx;
-    private float afstandz;
 
 
 
@@ -259,48 +255,49 @@ public class SchaapScript : MonoBehaviour
         //cognitive compponent
 
         GameObject[] goss = GameObject.FindGameObjectsWithTag("Schaap");
+        int lengte = goss.Length;
         farthestcoords = null;
-        foreach (GameObject go in goss)
+        for (int j = 0; j<lengte; j++)
         {
+            GameObject schaapje = goss[j];
             var H = GameObject.FindGameObjectWithTag("Herder");
             float herderx = H.transform.position.x;
             float herdery = H.transform.position.z;
-            sheepx = go.transform.position.x;
-            sheepy = go.transform.position.z;
+            float sheepx = schaapje.transform.position.x;
+            float sheepy = schaapje.transform.position.z;
             float afstandx = herderx - sheepx;
             float afstandz = herdery - sheepy;
+            float sdesiredx = - 0.5f * afstandx;
+            float sdesiredz = - 0.5f * afstandz;
 
             float euclid = Mathf.Sqrt((afstandx*afstandx)+(afstandz*afstandz));
             // The sheep each time runs a certain distance away. 
             //float DistanceToRun = 1;
             // If the sheep is within range of the sheppard then the sheep has to run in the other direction. 
-            if (euclid <= 5)
+            if (euclid <= 10)
             {
-                float helling = (afstandx / afstandz);
-                float a = Mathf.Pow(helling, 2);
-                float b = 2 * helling;
-                float afstand = 1;
-                float c = -Mathf.Pow(afstand, 2);
-                float discriminant = Mathf.Pow(b, 2) - (4 * a * c);
-                oppositey = (-b + Mathf.Sqrt(discriminant)) / (2 * a);
-                oppositeyy = (-b - Mathf.Sqrt(discriminant)) / (2 * a);
-                oppositex = (helling * oppositey);
-                oppositexx = (helling * oppositeyy);
+                schaapje.transform.Translate(new Vector3(sdesiredx*Time.deltaTime, 0.0f, sdesiredz*Time.deltaTime));
+
+
+//                float helling = (afstandx / afstandz);
+//                float a = Mathf.Pow(helling, 2);
+//                float b = 2 * helling;
+//                float afstand = 1;
+//                float c = -Mathf.Pow(afstand, 2);
+//                float discriminant = Mathf.Pow(b, 2) - (4 * a * c);
+//                oppositey = (-b + Mathf.Sqrt(discriminant)) / (2 * a);
+//                oppositeyy = (-b - Mathf.Sqrt(discriminant)) / (2 * a);
+//                oppositex = (helling * oppositey);
+//                oppositexx = (helling * oppositeyy);
                 // Now we check what pair of coordinates is farthest from the sheppard, but within the range of the field. 
-                distancesheppard1 = Mathf.Sqrt(Mathf.Pow(herderx - oppositex, 2) + Mathf.Pow(herdery - oppositey, 2));
-                distancesheppard2 = Mathf.Sqrt(Mathf.Pow(herderx - oppositexx, 2) + Mathf.Pow(herdery - oppositeyy, 2));
-                check1 = comparefarthest(distancesheppard1, distancesheppard2);
+//                distancesheppard1 = Mathf.Sqrt(Mathf.Pow(herderx - oppositex, 2) + Mathf.Pow(herdery - oppositey, 2));
+//                distancesheppard2 = Mathf.Sqrt(Mathf.Pow(herderx - oppositexx, 2) + Mathf.Pow(herdery - oppositeyy, 2));
+//                check1 = comparefarthest(distancesheppard1, distancesheppard2);
                 // Now check which distance compares to which x and y and return these x and y coordinates in an array. 
-                givefarthestcoords(check1, distancesheppard1, distancesheppard2); // These are the desired coordinates of the cognitive component. 
-
-
-
-
-
+//                givefarthestcoords(check1, distancesheppard1, distancesheppard2); // These are the desired coordinates of the cognitive component. 
 
                 // Now the addition of the social component. 
 
-                int lengte = goss.Length;
 
                 float besteafstand1 = 100;
                 GameObject schaapbest1 = goss[1];
@@ -313,8 +310,8 @@ public class SchaapScript : MonoBehaviour
                 for (int i = 0; i < lengte; i++)
                 {
                     GameObject tijdelijkschaap = goss[i];
-                    afstandx = tijdelijkschaap.transform.position.x - go.transform.position.x;
-                    afstandz = tijdelijkschaap.transform.position.z - go.transform.position.z;
+                    afstandx = tijdelijkschaap.transform.position.x - schaapje.transform.position.x;
+                    afstandz = tijdelijkschaap.transform.position.z - schaapje.transform.position.z;
 
                     if (afstandx < 0.01f && afstandz < 0.01f)
                     {
@@ -401,9 +398,11 @@ public class SchaapScript : MonoBehaviour
                 float c2 = 0.0f;
                 float r1 = Random.Range(0f, 1f);
                 float r2 = Random.Range(0f, 1f);
-                  float newposx =  (c1 * farthestcoords[0]) + (c2 *  cooo[0]);
-                  float newposy =  (c1 * farthestcoords[1])  + (c2 *  cooo[1]);
-                transform.Translate(new Vector3((newposx * speed * Time.deltaTime), 0, (newposy * speed * Time.deltaTime)));
+                //float newposx =  (c1 * farthestcoords[0]) + (c2 *  cooo[0]);
+                //   float newposy =  (c1 * farthestcoords[1])  + (c2 *  cooo[1]);
+                float newposx = farthestcoords[0];
+                float newposy = farthestcoords[1];
+             //   schaapje.transform.Translate(new Vector3((newposx * speed * Time.deltaTime), 0, (newposy * speed * Time.deltaTime)));
 
             }
 
