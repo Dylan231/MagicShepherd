@@ -276,28 +276,8 @@ public class SchaapScript : MonoBehaviour
             // If the sheep is within range of the sheppard then the sheep has to run in the other direction. 
             if (euclid <= 10)
             {
-                schaapje.transform.Translate(new Vector3(sdesiredx*Time.deltaTime, 0.0f, sdesiredz*Time.deltaTime));
-
-
-//                float helling = (afstandx / afstandz);
-//                float a = Mathf.Pow(helling, 2);
-//                float b = 2 * helling;
-//                float afstand = 1;
-//                float c = -Mathf.Pow(afstand, 2);
-//                float discriminant = Mathf.Pow(b, 2) - (4 * a * c);
-//                oppositey = (-b + Mathf.Sqrt(discriminant)) / (2 * a);
-//                oppositeyy = (-b - Mathf.Sqrt(discriminant)) / (2 * a);
-//                oppositex = (helling * oppositey);
-//                oppositexx = (helling * oppositeyy);
-                // Now we check what pair of coordinates is farthest from the sheppard, but within the range of the field. 
-//                distancesheppard1 = Mathf.Sqrt(Mathf.Pow(herderx - oppositex, 2) + Mathf.Pow(herdery - oppositey, 2));
-//                distancesheppard2 = Mathf.Sqrt(Mathf.Pow(herderx - oppositexx, 2) + Mathf.Pow(herdery - oppositeyy, 2));
-//                check1 = comparefarthest(distancesheppard1, distancesheppard2);
-                // Now check which distance compares to which x and y and return these x and y coordinates in an array. 
-//                givefarthestcoords(check1, distancesheppard1, distancesheppard2); // These are the desired coordinates of the cognitive component. 
-
-                // Now the addition of the social component. 
-
+                //schaapje.transform.Translate(new Vector3(sdesiredx*Time.deltaTime, 0.0f, sdesiredz*Time.deltaTime));
+                
 
                 float besteafstand1 = 100;
                 GameObject schaapbest1 = goss[1];
@@ -400,9 +380,9 @@ public class SchaapScript : MonoBehaviour
                 float r2 = Random.Range(0f, 1f);
                 //float newposx =  (c1 * farthestcoords[0]) + (c2 *  cooo[0]);
                 //   float newposy =  (c1 * farthestcoords[1])  + (c2 *  cooo[1]);
-                float newposx = farthestcoords[0];
-                float newposy = farthestcoords[1];
-             //   schaapje.transform.Translate(new Vector3((newposx * speed * Time.deltaTime), 0, (newposy * speed * Time.deltaTime)));
+                float newposx = cooo[0];
+                float newposy = cooo[1];
+                schaapje.transform.Translate(new Vector3((newposx * speed * Time.deltaTime), 0, (newposy * speed * Time.deltaTime)));
 
             }
 
