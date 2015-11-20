@@ -43,7 +43,7 @@ public class SchaapScript : MonoBehaviour
     private float y1;
     private float xx1;
     private float yy1;
-            public int s;
+    public int s;
     float[] co;
     float[] coo;
     float[] cooo;
@@ -54,16 +54,18 @@ public class SchaapScript : MonoBehaviour
     private float distancesheppard1;
     private float distancesheppard2;
     private float check1;
-    public float rangex = 0.1f;
-    public float rangexx = 1;
-    public float rangey = 0.1f;
-    public float rangeyy = 1;
+    public float rangex = -50f;
+    public float rangexx = 50;
+    public float rangey = -50f;
+    public float rangeyy = 50;
     //private float[] farthestcoords;
     private float speed = 1;
     private float sheepx;
     private float sheepy;
     private float[] farthestcoords;
-    
+    private float afstandx;
+    private float afstandz;
+
 
 
     struct SheepDistance
@@ -115,7 +117,7 @@ public class SchaapScript : MonoBehaviour
             co[0] = xx;
             co[1] = yy;
         }
-       
+
     }
 
     // This method returns a 2-D coordinate array which corresponds to the second option of shortest euclidean distance. 
@@ -132,7 +134,7 @@ public class SchaapScript : MonoBehaviour
             coo[0] = xx1;
             coo[1] = yy1;
         }
-        
+
     }
 
     //  Compares the two options and checks which is the shortest and returns those corresponding coordinates into arrat cooo. 
@@ -149,7 +151,7 @@ public class SchaapScript : MonoBehaviour
             cooo[0] = coo[0];
             cooo[1] = coo[1];
         }
-        
+
     }
 
     // Now some methods for the cognitive component. 
@@ -201,7 +203,7 @@ public class SchaapScript : MonoBehaviour
             }
 
         }
-      
+
     }
 
     void Start()
@@ -257,24 +259,24 @@ public class SchaapScript : MonoBehaviour
         //cognitive compponent
 
         GameObject[] goss = GameObject.FindGameObjectsWithTag("Schaap");
-       farthestcoords = null;
+        farthestcoords = null;
         foreach (GameObject go in goss)
         {
             var H = GameObject.FindGameObjectWithTag("Herder");
-            Vector3 HerderCoordinaten = new Vector3(H.transform.position.x, 0, H.transform.position.z);
-            Vector3 Sheep = new Vector3(go.transform.position.x, 0, go.transform.position.z);
-            float herderx = HerderCoordinaten.x;
-            float herdery = HerderCoordinaten.z;
-            sheepx = Sheep.x;
-            sheepy = Sheep.z;
+            float herderx = H.transform.position.x;
+            float herdery = H.transform.position.z;
+            sheepx = go.transform.position.x;
+            sheepy = go.transform.position.z;
+            float afstandx = herderx - sheepx;
+            float afstandz = herdery - sheepy;
 
-            float euclid = Mathf.Sqrt((Mathf.Pow(herderx - sheepx, 2)) + (Mathf.Pow(herdery - sheepy, 2)));
+            float euclid = Mathf.Sqrt((afstandx*afstandx)+(afstandz*afstandz));
             // The sheep each time runs a certain distance away. 
             //float DistanceToRun = 1;
             // If the sheep is within range of the sheppard then the sheep has to run in the other direction. 
             if (euclid <= 5)
             {
-                float helling = ((sheepx - herderx) / (sheepy - herdery));
+                float helling = (afstandx / afstandz);
                 float a = Mathf.Pow(helling, 2);
                 float b = 2 * helling;
                 float afstand = 1;
@@ -290,12 +292,7 @@ public class SchaapScript : MonoBehaviour
                 check1 = comparefarthest(distancesheppard1, distancesheppard2);
                 // Now check which distance compares to which x and y and return these x and y coordinates in an array. 
                 givefarthestcoords(check1, distancesheppard1, distancesheppard2); // These are the desired coordinates of the cognitive component. 
-                transform.Translate(new Vector3((farthestcoords[0] * speed * Time.deltaTime), 0, (farthestcoords[1] * speed * Time.deltaTime)));
-            }
-            else
-            {
 
-            }
 
 
 
@@ -311,12 +308,13 @@ public class SchaapScript : MonoBehaviour
                 GameObject schaapbest2 = goss[2];
                 float besteafstand3 = 100;
                 GameObject schaapbest3 = goss[3];
+                
 
                 for (int i = 0; i < lengte; i++)
                 {
                     GameObject tijdelijkschaap = goss[i];
-                    float afstandx = tijdelijkschaap.transform.position.x - go.transform.position.x;
-                    float afstandz = tijdelijkschaap.transform.position.z - go.transform.position.z;
+                    afstandx = tijdelijkschaap.transform.position.x - go.transform.position.x;
+                    afstandz = tijdelijkschaap.transform.position.z - go.transform.position.z;
 
                     if (afstandx < 0.01f && afstandz < 0.01f)
                     {
@@ -392,25 +390,27 @@ public class SchaapScript : MonoBehaviour
 
                 // Now the social component and the cognitive component will be merged together.
                 // The utlimate position for each sheep will be calculated by using the social and cognitive component from this PSO problem. 
-                float c1 = 0.8f;
-                float c2 = 0.2f;
-                float r1 = Random.Range(0f, 1f);
-                float r2 = Random.Range(0f, 1f);
-                float newposx = sheepx + (c1 * r1 * farthestcoords[0]) + (c2 * r2 * cooo[0]);
-                float newposy = sheepy + (c1 * r1 * farthestcoords[1]) + (c2 * r2 * cooo[1]);
+
 
                 // Now tell the sheepOnject to move in the desired direction. 
                 //   Vecotr3 dirx = newposx - sheepx;
                 //  Vector3 dirz = newposy - sheepy;
                 //if(move > dist) move = dist;
 
-
-                // apply movement
+                float c1 = 1f;
+                float c2 = 0.0f;
+                float r1 = Random.Range(0f, 1f);
+                float r2 = Random.Range(0f, 1f);
+                  float newposx =  (c1 * farthestcoords[0]) + (c2 *  cooo[0]);
+                  float newposy =  (c1 * farthestcoords[1])  + (c2 *  cooo[1]);
                 transform.Translate(new Vector3((newposx * speed * Time.deltaTime), 0, (newposy * speed * Time.deltaTime)));
-            
-            
+
+            }
+
+
         }
     }
 }
-        // closes update. 
-    
+// closes update. 
+
+
