@@ -268,6 +268,13 @@ public class SchaapScript : MonoBehaviour
             float sdesiredx = - 0.5f * afstandx;
             float sdesiredz = - 0.5f * afstandz;
 
+            var D = GameObject.FindGameObjectWithTag("Hond");
+            float hondx = D.transform.position.x;
+            float hondz = D.transform.position.z;
+            float afstandhondx = hondx - sheepx;
+            float afstandhondz = hondz - sheepy;
+            float afstandhond = Mathf.Sqrt((afstandhondx * afstandhondx) + (afstandhondz * afstandhondz));
+
             float euclid = Mathf.Sqrt((afstandx*afstandx)+(afstandz*afstandz));
 
             float besteafstand1 = 100;
@@ -322,6 +329,11 @@ public class SchaapScript : MonoBehaviour
 
             float xkant = ((sdesiredx + xverschil) / 2);
             float zkant = ((sdesiredz + zverschil) / 2);
+
+            if (afstandhond <=5)
+            {
+                schaapje.transform.Translate(new Vector3(xverschil * Time.deltaTime, 0.0f, zverschil * Time.deltaTime));
+            }
 
             if (euclid <= 10)
             {
