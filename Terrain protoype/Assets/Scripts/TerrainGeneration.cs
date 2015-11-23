@@ -6,6 +6,9 @@ public class TerrainGeneration : MonoBehaviour {
 	private TerrainData terraindata;
 	public int aantalHeuvels;
 	public int aantalSloten;
+	public int aantalVijvers;
+	public int aantalBomen;
+	public int aantalBosjes;
 	public float[] positionsx;
 	public float[] positionsz;
 
@@ -27,7 +30,7 @@ public class TerrainGeneration : MonoBehaviour {
 
 		terraindata.SetHeights(0,0,heights);
 
-
+		// heuvels genereren
 		for (int i = 0; i < aantalHeuvels; i++) {
 			int beginx = (int) (Random.value*heightmapwidth);
 			int beginz = (int) (Random.value*heightmapheigth);
@@ -54,7 +57,7 @@ public class TerrainGeneration : MonoBehaviour {
 			int beginx = (int) (Random.value*heightmapwidth);
 			int beginz = (int) (Random.value*heightmapheigth);
 			int slootbreedte = (int)(Random.value*30);
-			int slootlengte = (int)(Random.value*300);
+			int slootlengte = (int)(Random.Range(300,400));
 			if(Random.value>0.5){
 				for(int x = 0; x < slootlengte; x++){
 					for(int z = 0; z < slootbreedte; z++){
@@ -77,6 +80,24 @@ public class TerrainGeneration : MonoBehaviour {
 					}
 				}
 			}
+		}
+		// vijvers genereren
+		for (int i = 0; i < aantalVijvers; i++) {
+			int beginx = (int) (Random.value*heightmapwidth);
+			int beginz = (int) (Random.value*heightmapheigth);
+			int vijverradius = (int) (Random.Range(30,70));
+			for(int r = 1; r < vijverradius; r++){
+				for(int d = 0; d < 360; d++){
+					int xx = beginx + (int)(r*Mathf.Cos(d*Mathf.PI/180));
+					int x = Mathf.Min(xx,heightmapwidth);
+					int zz = beginz + (int)(r*Mathf.Sin(d*Mathf.PI/180));
+					int z = Mathf.Min(zz,heightmapheigth);
+					if(positioncheck(x,z,positionsx, positionsz)){	
+						heights[Mathf.Max(x,0),Mathf.Max(z,0)] = 0;
+					}
+				}
+			}
+
 		}
 
 		terraindata.SetHeights(0,0,heights);
@@ -123,6 +144,49 @@ public class TerrainGeneration : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		GenerateTerrain ();
+		GameObject hekPrefab = Resources.Load ("Hekje") as GameObject;
+		float lengteHek = hekPrefab.GetComponent<Renderer>().bounds.size.x;
+		int aantalhekjesx = (int)(terraindata.size.x / lengteHek);
+		int aantalhekjesz = (int)(terraindata.size.z / lengteHek);
+		for (int i = 0; i < aantalhekjesx+1; i++) {
+			GameObject hek = Instantiate(hekPrefab);
+			hek.transform.position = new Vector3 (0+ i*lengteHek, terrain.transform.position.y, 0);
+			GameObject hek2 = Instantiate(hekPrefab);
+			hek2.transform.position = new Vector3 (0+i*lengteHek, terrain.transform.position.y, terraindata.size.z);
+		}
+		for (int i = 0; i < aantalhekjesz+1; i++) {
+			GameObject hek = Instantiate(hekPrefab);
+			hek.transform.position = new Vector3 (0, terrain.transform.position.y, 0+ i*lengteHek);
+			hek.transform.eulerAngles = new Vector3(0,90,0);
+			GameObject hek2 = Instantiate(hekPrefab);
+			hek2.transform.position = new Vector3 (terraindata.size.z, terrain.transform.position.y, i*lengteHek);
+			hek2.transform.eulerAngles = new Vector3(0,90,0);
+		}
+
+		GameObject bosje = Resources.Load ("Bush1") as GameObject;
+		GameObject boom = Resources.Load ("Alder") as GameObject;
+
+		for(int i = 0; i < aantalBosjes; i++){
+			GameObject bosje1 = Instantiate(bosje);
+			bosje1.transform.position = new Vector3((float)(Random.value*terraindata.size.x),100,(float)(Random.value*terraindata.size.z));
+			RaycastHit test;
+			Ray testray = new Ray(bosje1.transform.position, Vector3.down);
+			if (Physics.Raycast(testray, out test)) {
+				bosje1.transform.Translate(new Vector3(0,-test.distance,0));
+			}
+		}
+
+		for(int i = 0; i < aantalBomen; i++){
+			GameObject boom1 = Instantiate(boom);
+			boom1.transform.position = new Vector3((float)(Random.value*terraindata.size.x),100,(float)(Random.value*terraindata.size.z));
+			RaycastHit test;
+			Ray testray = new Ray(boom1.transform.position, Vector3.down);
+			if (Physics.Raycast(testray, out test)) {
+				boom1.transform.Translate(new Vector3(0,-test.distance,0));
+			}
+		}
+
+
 	}
 	
 	// Update is called once per frame
