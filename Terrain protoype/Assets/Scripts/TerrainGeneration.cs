@@ -141,9 +141,7 @@ public class TerrainGeneration : MonoBehaviour {
 		}
 		return true;
 	}
-	// Use this for initialization
-	void Start () {
-		GenerateTerrain ();
+	void GenerateTrees(){
 		GameObject hekPrefab = Resources.Load ("Hekje") as GameObject;
 		float lengteHek = hekPrefab.GetComponent<Renderer>().bounds.size.x;
 		int aantalhekjesx = (int)(terraindata.size.x / lengteHek);
@@ -162,10 +160,10 @@ public class TerrainGeneration : MonoBehaviour {
 			hek2.transform.position = new Vector3 (terraindata.size.z, terrain.transform.position.y, i*lengteHek);
 			hek2.transform.eulerAngles = new Vector3(0,90,0);
 		}
-
+		
 		GameObject bosje = Resources.Load ("Bush1") as GameObject;
 		GameObject boom = Resources.Load ("Alder") as GameObject;
-
+		
 		for(int i = 0; i < aantalBosjes; i++){
 			GameObject bosje1 = Instantiate(bosje);
 			bosje1.transform.position = new Vector3((float)(Random.value*terraindata.size.x),100,(float)(Random.value*terraindata.size.z));
@@ -175,7 +173,7 @@ public class TerrainGeneration : MonoBehaviour {
 				bosje1.transform.Translate(new Vector3(0,-test.distance,0));
 			}
 		}
-
+		
 		for(int i = 0; i < aantalBomen; i++){
 			GameObject boom1 = Instantiate(boom);
 			boom1.transform.position = new Vector3((float)(Random.value*terraindata.size.x),100,(float)(Random.value*terraindata.size.z));
@@ -185,6 +183,12 @@ public class TerrainGeneration : MonoBehaviour {
 				boom1.transform.Translate(new Vector3(0,-test.distance,0));
 			}
 		}
+	}
+
+	// Use this for initialization
+	void Start () {
+		GenerateTerrain ();
+		GenerateTrees ();
 
 
 	}
