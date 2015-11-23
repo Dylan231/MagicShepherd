@@ -249,8 +249,6 @@ public class SchaapScript : MonoBehaviour
 
 
         // Ai for the sheep taking the sheppard into account. 
-        //    float oldposx = rb.position.x;
-        //  float oldposy = rb.position.y;
 
         //cognitive compponent
 
@@ -271,102 +269,72 @@ public class SchaapScript : MonoBehaviour
             float sdesiredz = - 0.5f * afstandz;
 
             float euclid = Mathf.Sqrt((afstandx*afstandx)+(afstandz*afstandz));
-            // The sheep each time runs a certain distance away. 
-            //float DistanceToRun = 1;
-            // If the sheep is within range of the sheppard then the sheep has to run in the other direction. 
-            if (euclid <= 10)
+
+            float besteafstand1 = 100;
+            GameObject schaapbest1 = goss[1];
+            float besteafstand2 = 100;
+            GameObject schaapbest2 = goss[2];
+            float besteafstand3 = 100;
+            GameObject schaapbest3 = goss[3];
+            
+            for (int i = 0; i < lengte; i++)
             {
-                //schaapje.transform.Translate(new Vector3(sdesiredx*Time.deltaTime, 0.0f, sdesiredz*Time.deltaTime));
-                
+                GameObject tijdelijkschaap = goss[i];
+                afstandx = tijdelijkschaap.transform.position.x - schaapje.transform.position.x;
+                afstandz = tijdelijkschaap.transform.position.z - schaapje.transform.position.z;
 
-                float besteafstand1 = 100;
-                GameObject schaapbest1 = goss[1];
-                float besteafstand2 = 100;
-                GameObject schaapbest2 = goss[2];
-                float besteafstand3 = 100;
-                GameObject schaapbest3 = goss[3];
-                
-
-                for (int i = 0; i < lengte; i++)
+                if (afstandx < 0.01f && afstandz < 0.01f)
                 {
-                    GameObject tijdelijkschaap = goss[i];
-                    afstandx = tijdelijkschaap.transform.position.x - schaapje.transform.position.x;
-                    afstandz = tijdelijkschaap.transform.position.z - schaapje.transform.position.z;
-
-                    if (afstandx < 0.01f && afstandz < 0.01f)
-                    {
-
-                    }
-                    else
-                    {
-                        float tijdelijkeafstand = Mathf.Sqrt((afstandx * afstandx) + (afstandz * afstandz));
-                        if (tijdelijkeafstand < besteafstand1)
-                        {
-                            besteafstand1 = tijdelijkeafstand;
-                            schaapbest1 = tijdelijkschaap;
-                        }
-                        else if (tijdelijkeafstand < besteafstand2)
-                        {
-                            besteafstand2 = tijdelijkeafstand;
-                            schaapbest2 = tijdelijkschaap;
-                        }
-                        else if (tijdelijkeafstand < besteafstand3)
-                        {
-                            besteafstand3 = tijdelijkeafstand;
-                            schaapbest3 = tijdelijkschaap;
-                        }
-                    }
 
                 }
+                else
+                {
+                    float tijdelijkeafstand = Mathf.Sqrt((afstandx * afstandx) + (afstandz * afstandz));
+                    if (tijdelijkeafstand < besteafstand1)
+                    {
+                        besteafstand1 = tijdelijkeafstand;
+                        schaapbest1 = tijdelijkschaap;
+                    }
+                    else if (tijdelijkeafstand < besteafstand2)
+                    {
+                        besteafstand2 = tijdelijkeafstand;
+                        schaapbest2 = tijdelijkschaap;
+                    }
+                    else if (tijdelijkeafstand < besteafstand3)
+                    {
+                        besteafstand3 = tijdelijkeafstand;
+                        schaapbest3 = tijdelijkschaap;
+                    }
+                }
+            }
 
-                coord1[0] = schaapbest1.transform.position.x;
-                coord1[1] = schaapbest1.transform.position.z;
-                coord2[0] = schaapbest2.transform.position.x;
-                coord2[1] = schaapbest2.transform.position.z;
-                coord3[0] = schaapbest3.transform.position.x;
-                coord3[1] = schaapbest3.transform.position.z;
+            float xafstand1 = schaapbest1.transform.position.x;
+            float xafstand2 = schaapbest2.transform.position.x;
+            float xafstand3 = schaapbest3.transform.position.x;
+            float zafstand1 = schaapbest1.transform.position.z;
+            float zafstand2 = schaapbest2.transform.position.z;
+            float zafstand3 = schaapbest3.transform.position.z;
+            float xafstanddesired = ((xafstand1 + xafstand2 + xafstand3) / 3);
+            float zafstanddesired = ((zafstand1 + zafstand2 + zafstand3) / 3);
 
-                // end of ranking code.
-                //  slope1 = (coord2[1] - coord1[1]) / (coord2[0] - coord1[0]);
-                dx = coord2[0] - coord1[0];
-                dy = coord2[1] - coord1[1];
-                dr = Mathf.Sqrt(Mathf.Pow(dx, 2) + Mathf.Pow(dy, 2));
-                D = (coord1[0] * coord2[1]) - (coord2[0] * coord1[1]);
-                x = ((D * dy) + sgn(dy) * dx * Mathf.Sqrt((Mathf.Pow(r, 2) * Mathf.Pow(dr, 2)) - Mathf.Pow(D, 2))) / Mathf.Pow(dr, 2);
-                xx = ((D * dy) - sgn(dy) * dx * Mathf.Sqrt((Mathf.Pow(r, 2) * Mathf.Pow(dr, 2)) - Mathf.Pow(D, 2))) / Mathf.Pow(dr, 2);
-                y = ((-D * dx) + Mathf.Abs(dy) * Mathf.Sqrt((Mathf.Pow(r, 2) * Mathf.Pow(dr, 2)) - Mathf.Pow(D, 2))) / Mathf.Pow(dr, 2);
-                yy = ((-D * dx) - Mathf.Abs(dy) * Mathf.Sqrt((Mathf.Pow(r, 2) * Mathf.Pow(dr, 2)) - Mathf.Pow(D, 2))) / Mathf.Pow(dr, 2);
-                // Now we have the coordinates of two points and need to find the point shortest to sheep 2.
-                dist1 = Mathf.Sqrt(Mathf.Pow(coord2[0] - x, 2) + Mathf.Pow(coord2[1] - y, 2));
-                dist2 = Mathf.Sqrt(Mathf.Pow(coord2[0] - xx, 2) + Mathf.Pow(coord2[1] - yy, 2));
-                // Point A is constructed below. 
-                dist3 = comp(dist1, dist2);
-                comparecoords(dist3, dist1);
-                float dxx = coord3[0] - coord1[0];
-                float dyy = coord3[1] - coord1[1];
-                float drr = Mathf.Sqrt(Mathf.Pow(dxx, 2) + Mathf.Pow(dyy, 2));
-                float DD = (coord1[0] * coord3[1]) - (coord3[0] * coord1[1]);
-                float x1 = ((DD * dyy) + sgn(dyy) * dxx * Mathf.Sqrt((Mathf.Pow(rr, 2) * Mathf.Pow(dr, 2)) - Mathf.Pow(DD, 2))) / Mathf.Pow(drr, 2);
-                float xx1 = ((DD * dyy) - sgn(dyy) * dxx * Mathf.Sqrt((Mathf.Pow(rr, 2) * Mathf.Pow(drr, 2)) - Mathf.Pow(DD, 2))) / Mathf.Pow(drr, 2);
-                float y1 = ((-DD * dxx) + Mathf.Abs(dyy) * Mathf.Sqrt((Mathf.Pow(rr, 2) * Mathf.Pow(drr, 2)) - Mathf.Pow(DD, 2))) / Mathf.Pow(drr, 2);
-                float yy1 = ((-DD * dxx) - Mathf.Abs(dyy) * Mathf.Sqrt((Mathf.Pow(rr, 2) * Mathf.Pow(drr, 2)) - Mathf.Pow(DD, 2))) / Mathf.Pow(drr, 2);
-                float dist11 = Mathf.Sqrt(Mathf.Pow(coord3[0] - x1, 2) + Mathf.Pow(coord3[1] - y1, 2));
-                float dist22 = Mathf.Sqrt(Mathf.Pow(coord3[0] - xx1, 2) + Mathf.Pow(coord3[1] - yy1, 2));
-                // Point B is constructed below. 
-                float dist33 = comp(dist11, dist22);
-                comparecoords1(dist33, dist11);
-                // two point A and B have been calculated now. 
-                float dist100 = (Mathf.Sqrt(Mathf.Pow(co[0] - coord2[0], 2) + Mathf.Pow(co[1] - coord2[1], 2))) + (Mathf.Sqrt(Mathf.Pow(co[0] - coord3[0], 2) + Mathf.Pow(co[1] - coord3[1], 2)));
-                float dist101 = (Mathf.Sqrt(Mathf.Pow(coo[0] - coord2[0], 2) + Mathf.Pow(coo[1] - coord2[1], 2))) + (Mathf.Sqrt(Mathf.Pow(coo[0] - coord3[0], 2) + Mathf.Pow(coo[1] - coord3[1], 2)));
-                float dist102 = comp(dist100, dist101);
-                comparecoords2(dist102, dist100);
-                // comparecoords2 contains the position where the sheep in the herd has to go to. 
-                // This desired position is calculated for each sheep and is updated whenever the sheep walk to the desired point and have reached it or 
-                // when a sheppard comes and scares or lures the sheep. 
+            float xverschil = (xafstanddesired - sheepx);
+            float zverschil = (zafstanddesired - sheepy);
 
+            float xkant = ((sdesiredx + xverschil) / 2);
+            float zkant = ((sdesiredz + zverschil) / 2);
+
+            if (euclid <= 10)
+            {
+                schaapje.transform.Translate(new Vector3(xkant * Time.deltaTime, 0.0f, zkant * Time.deltaTime));
+                //schaapje.transform.Translate(new Vector3(sdesiredx * Time.deltaTime, 0.0f, sdesiredz * Time.deltaTime));
+                //schaapje.transform.Translate(new Vector3(xverschil * Time.deltaTime, 0.0f, zverschil * Time.deltaTime));
+            }
+
+            
+            
 
                 // Now the social component and the cognitive component will be merged together.
-                // The utlimate position for each sheep will be calculated by using the social and cognitive component from this PSO problem. 
+                // The ultimate position for each sheep will be calculated by using the social and cognitive component from this PSO problem. 
 
 
                 // Now tell the sheepOnject to move in the desired direction. 
@@ -374,17 +342,10 @@ public class SchaapScript : MonoBehaviour
                 //  Vector3 dirz = newposy - sheepy;
                 //if(move > dist) move = dist;
 
-                float c1 = 1f;
-                float c2 = 0.0f;
-                float r1 = Random.Range(0f, 1f);
-                float r2 = Random.Range(0f, 1f);
-                //float newposx =  (c1 * farthestcoords[0]) + (c2 *  cooo[0]);
-                //   float newposy =  (c1 * farthestcoords[1])  + (c2 *  cooo[1]);
-                float newposx = cooo[0];
-                float newposy = cooo[1];
-                schaapje.transform.Translate(new Vector3((newposx * speed * Time.deltaTime), 0, (newposy * speed * Time.deltaTime)));
 
-            }
+                //schaapje.transform.Translate(new Vector3((newposx * speed * Time.deltaTime), 0, (newposy * speed * Time.deltaTime)));
+
+            
 
 
         }
