@@ -14,7 +14,7 @@ public class TerrainGeneration : MonoBehaviour {
 
 	public void GenerateTerrain(){
 		terraindata = terrain.terrainData;
-		float[] positionsx = new  float[aantalHeuvels];
+		float [] positionsx = new float[aantalHeuvels];
 		float[] positionsz = new  float[aantalHeuvels];
 
 		int heightmapwidth = terraindata.heightmapWidth-1;
@@ -100,13 +100,14 @@ public class TerrainGeneration : MonoBehaviour {
 
 		}
 
-		terraindata.SetHeights(0,0,heights);
+		terraindata.SetHeights (0, 0, heights);
 
 		for (int i = 0; i < 5; i++) {
 			Smooth();
 		}
-		
+
 	}
+
 	private void Smooth()
 	{
 		float[,] height = terrain.terrainData.GetHeights(0, 0, terrain.terrainData.heightmapWidth,
@@ -146,7 +147,7 @@ public class TerrainGeneration : MonoBehaviour {
 		float lengteHek = hekPrefab.GetComponent<Renderer>().bounds.size.x;
 		int aantalhekjesx = (int)(terraindata.size.x / lengteHek);
 		int aantalhekjesz = (int)(terraindata.size.z / lengteHek);
-		for (int i = 0; i < aantalhekjesx+1; i++) {
+		for (int i = 1; i < aantalhekjesx+1; i++) {
 			GameObject hek = Instantiate(hekPrefab);
 			hek.transform.position = new Vector3 (0+ i*lengteHek, terrain.transform.position.y, 0);
 			GameObject hek2 = Instantiate(hekPrefab);
@@ -162,7 +163,7 @@ public class TerrainGeneration : MonoBehaviour {
 		}
 		
 		GameObject bosje = Resources.Load ("Bush1") as GameObject;
-		GameObject boom = Resources.Load ("Alder") as GameObject;
+		GameObject boom = Resources.Load ("sycamore") as GameObject;
 		
 		for(int i = 0; i < aantalBosjes; i++){
 			GameObject bosje1 = Instantiate(bosje);
@@ -181,6 +182,7 @@ public class TerrainGeneration : MonoBehaviour {
 			Ray testray = new Ray(boom1.transform.position, Vector3.down);
 			if (Physics.Raycast(testray, out test)) {
 				boom1.transform.Translate(new Vector3(0,-test.distance,0));
+				boom1.transform.localScale = new Vector3(500,500,500);
 			}
 		}
 	}
