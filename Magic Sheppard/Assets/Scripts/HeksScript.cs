@@ -75,7 +75,7 @@ public class HeksScript : MonoBehaviour {
         GameObject[] gos = GameObject.FindGameObjectsWithTag("Schaap");
         GameObject o1 = gos[chosenone];
 
-        int r2 = r1.Next(4);
+        int r2 = r1.Next(10);
 
         if (r2 == 0)
         {

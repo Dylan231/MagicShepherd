@@ -6,12 +6,12 @@ public class HondScript : MonoBehaviour {
     public int aantalhondengekocht = HondWinkelScript.aantalhondgekocht;
     public Text AantalHondenGekocht;
     bool aan = false;
-    float xbegin;
-    float zbegin;
-    bool n1 = false;
-    bool n2 = false;
-    bool n3 = false;
-    bool n4 = false;
+    //float xbegin;
+    //float zbegin;
+    //bool n1 = false;
+    //bool n2 = false;
+    //bool n3 = false;
+    //bool n4 = false;
     Vector3 schaapplekje = new Vector3();
 
     // Use this for initialization
@@ -76,26 +76,23 @@ public class HondScript : MonoBehaviour {
             aan = true;
             aantalhondengekocht = aantalhondengekocht - 1;
             SetAantalHondenText();
+            StartCoroutine(Ronddraaien());
         }
 
         if (aan == true)
         {
-            InvokeRepeating("Roteren", 0, 0.2f);
+            transform.RotateAround(schaapplekje, Vector3.up, 20 * Time.deltaTime);
         }
-    }
-
-    void Roteren()
-    {
-        transform.RotateAround(schaapplekje, Vector3.up, 10 * Time.deltaTime);
-        StartCoroutine(Ronddraaien());
-
+        else
+        {
+            
+        }
     }
 
     IEnumerator Ronddraaien()
     {
         yield return new WaitForSeconds(10);
         aan = false;
-        CancelInvoke();
     }
 
 
@@ -134,98 +131,98 @@ public class HondScript : MonoBehaviour {
             //}
 
 
-            void PlekjeZoeken()
-    {
-                float xdesired = xbegin + 0.1f;
-                float zdesired = zbegin + 0.5f;
+    //        void PlekjeZoeken()
+    //{
+    //            float xdesired = xbegin + 0.1f;
+    //            float zdesired = zbegin + 0.5f;
 
-                float xrichting = xdesired - xbegin;
-                float zrichting = zdesired - zbegin;
+    //            float xrichting = xdesired - xbegin;
+    //            float zrichting = zdesired - zbegin;
 
-                float xnu = gameObject.transform.position.x;
-                float znu = gameObject.transform.position.z;
+    //            float xnu = gameObject.transform.position.x;
+    //            float znu = gameObject.transform.position.z;
 
-                transform.Translate(new Vector3(xrichting * Time.deltaTime, 0, zrichting * Time.deltaTime));
+    //            transform.Translate(new Vector3(xrichting * Time.deltaTime, 0, zrichting * Time.deltaTime));
 
-                if (Mathf.Abs(xdesired - xnu) < 0.1 && Mathf.Abs(zdesired - znu) < 0.1)
-                {
-                    n1 = false;
-                    CancelInvoke();
-                    n2 = true;
-                }
-            }
+    //            if (Mathf.Abs(xdesired - xnu) < 0.1 && Mathf.Abs(zdesired - znu) < 0.1)
+    //            {
+    //                n1 = false;
+    //                CancelInvoke();
+    //                n2 = true;
+    //            }
+    //        }
 
-            void PlekjeZoeken2()
-    {
-                float xdesired = xbegin - 0.1f;
-                float zdesired = zbegin - 0.5f;
+    //        void PlekjeZoeken2()
+    //{
+    //            float xdesired = xbegin - 0.1f;
+    //            float zdesired = zbegin - 0.5f;
 
-                float xrichting = xdesired - xbegin;
-                float zrichting = zdesired - zbegin;
+    //            float xrichting = xdesired - xbegin;
+    //            float zrichting = zdesired - zbegin;
 
-                float xnu = gameObject.transform.position.x;
-                float znu = gameObject.transform.position.z;
+    //            float xnu = gameObject.transform.position.x;
+    //            float znu = gameObject.transform.position.z;
 
-                transform.Translate(new Vector3(xrichting * Time.deltaTime, 0, zrichting * Time.deltaTime));
+    //            transform.Translate(new Vector3(xrichting * Time.deltaTime, 0, zrichting * Time.deltaTime));
 
-                if (Mathf.Abs(xdesired - xnu) < 0.1 && Mathf.Abs(zdesired - znu) < 0.1)
-                {
-                    n2 = false;
-                    CancelInvoke();
-                    n3 = true;
-                }
-            }
+    //            if (Mathf.Abs(xdesired - xnu) < 0.1 && Mathf.Abs(zdesired - znu) < 0.1)
+    //            {
+    //                n2 = false;
+    //                CancelInvoke();
+    //                n3 = true;
+    //            }
+    //        }
 
-            void PlekjeZoeken3()
-    {
-                float xdesired = xbegin + 0.1f;
-                float zdesired = zbegin + 0.5f;
+    //        void PlekjeZoeken3()
+    //{
+    //            float xdesired = xbegin + 0.1f;
+    //            float zdesired = zbegin + 0.5f;
 
-                float xrichting = xdesired - xbegin;
-                float zrichting = zdesired - zbegin;
+    //            float xrichting = xdesired - xbegin;
+    //            float zrichting = zdesired - zbegin;
 
-                float xnu = gameObject.transform.position.x;
-                float znu = gameObject.transform.position.z;
+    //            float xnu = gameObject.transform.position.x;
+    //            float znu = gameObject.transform.position.z;
 
-                transform.Translate(new Vector3(xrichting * Time.deltaTime, 0, zrichting * Time.deltaTime));
+    //            transform.Translate(new Vector3(xrichting * Time.deltaTime, 0, zrichting * Time.deltaTime));
 
-                if (Mathf.Abs(xdesired - xnu) < 0.1 && Mathf.Abs(zdesired - znu) < 0.1)
-                {
-                    n3 = false;
-                    CancelInvoke();
-                    n4 = true;
-                }
-            }
+    //            if (Mathf.Abs(xdesired - xnu) < 0.1 && Mathf.Abs(zdesired - znu) < 0.1)
+    //            {
+    //                n3 = false;
+    //                CancelInvoke();
+    //                n4 = true;
+    //            }
+    //        }
 
-            void TerugnaarHerder()
-    {
-                var H = GameObject.FindGameObjectWithTag("Herder");
+    //        void TerugnaarHerder()
+    //{
+    //            var H = GameObject.FindGameObjectWithTag("Herder");
 
-                float xdesired = H.transform.position.x + 1;
-                float zdesired = H.transform.position.z - 1;
+    //            float xdesired = H.transform.position.x + 1;
+    //            float zdesired = H.transform.position.z - 1;
 
-                float xnu = gameObject.transform.position.x;
-                float znu = gameObject.transform.position.z;
+    //            float xnu = gameObject.transform.position.x;
+    //            float znu = gameObject.transform.position.z;
 
-                float xrichting = xdesired - xnu;
-                float zrichting = zdesired - znu;
+    //            float xrichting = xdesired - xnu;
+    //            float zrichting = zdesired - znu;
 
-                transform.Translate(new Vector3(xrichting * Time.deltaTime, 0, zrichting * Time.deltaTime));
+    //            transform.Translate(new Vector3(xrichting * Time.deltaTime, 0, zrichting * Time.deltaTime));
 
-                if (Mathf.Abs(xdesired - xnu) < 0.1 && Mathf.Abs(zdesired - znu) < 0.1)
-                {
-                    n4 = false;
-                    CancelInvoke();
-                    ReturnBeginHond();
-                }
-            }
+    //            if (Mathf.Abs(xdesired - xnu) < 0.1 && Mathf.Abs(zdesired - znu) < 0.1)
+    //            {
+    //                n4 = false;
+    //                CancelInvoke();
+    //                ReturnBeginHond();
+    //            }
+    //        }
 
-            void ReturnBeginHond()
-    {
-                var H = GameObject.FindGameObjectWithTag("Herder");
-                transform.parent = H.transform;
-                aan = false;
-            }
+    //        void ReturnBeginHond()
+    //{
+    //            var H = GameObject.FindGameObjectWithTag("Herder");
+    //            transform.parent = H.transform;
+    //            aan = false;
+    //        }
 
             void SetAantalHondenText()
     {
