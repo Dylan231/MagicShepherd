@@ -54,11 +54,18 @@ public class TerrainGeneration : MonoBehaviour {
 		}
 		// sloten genereren
 		for (int i = 0; i < aantalSloten; i++) {
-			int beginx = (int) (Random.value*heightmapwidth);
-			int beginz = (int) (Random.value*heightmapheigth);
-			int slootbreedte = (int)(Random.value*30);
+			float randomx = Random.value;
+			float randomz = Random.value;
+			int beginx = (int) (randomx*(float)heightmapwidth);
+			int beginz = (int) (randomz*(float)heightmapheigth);
+			float realx = ((float)beginx/(float)heightmapwidth)*terraindata.size.x;
+			float realz = ((float)beginz/(float)heightmapheigth)*terraindata.size.z;
+			print (realx + " " + realz);
+			int slootbreedte = (int)(Random.Range(50,70));
 			int slootlengte = (int)(Random.Range(300,400));
-			if(Random.value>0.5){
+			GameObject gras = Resources.Load ("FernMesh") as GameObject;
+			float lengteGras = gras.GetComponent<Renderer>().bounds.size.x;
+			if(Random.value>0){
 				for(int x = 0; x < slootlengte; x++){
 					for(int z = 0; z < slootbreedte; z++){
 						int xx = Mathf.Min((beginx + x),heightmapwidth);
@@ -67,6 +74,12 @@ public class TerrainGeneration : MonoBehaviour {
 							heights[Mathf.Max(xx,0), Mathf.Max (zz,0)] = 0;
 						}
 					}
+				}
+
+				for(int k = 0; k < (int)((((float)slootlengte/(float)heightmapwidth)*terraindata.size.x)/lengteGras); k++){
+					GameObject nieuwgras = Instantiate (gras);
+					nieuwgras.transform.position = new Vector3(realz, 2, realx + 0.5f*k*lengteGras);
+					nieuwgras.transform.localScale = new Vector3(800,800,800);
 				}
 			}
 			else{
