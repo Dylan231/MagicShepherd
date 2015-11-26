@@ -24,13 +24,16 @@ public class SchaapScript : MonoBehaviour
             // De positie bepalen van elk schaap 'schaapje'
             GameObject schaapje = goss[j];
             float sheepx = schaapje.transform.position.x;
-            float sheepy = schaapje.transform.position.z;
+            float sheepz = schaapje.transform.position.z;
 
             // De schapen wiggelen rond door de weide als de herder of de hond niet in de buurt is
             if (herdernietdichtbij == true)
             {
                 float randx = Random.Range(-10f, 10f);
                 float randz = Random.Range(-10f, 10f);
+                //float xricht = randx - sheepx;
+                //float zricht = randz - sheepz;
+                //schaapje.transform.Translate(new Vector3(xricht * speed * Time.deltaTime * 0.1f, 0.0f, zricht * speed * Time.deltaTime * 0.1f));
                 schaapje.transform.Translate(new Vector3(randx*speed*Time.deltaTime*0.1f, 0.0f, randz*speed*Time.deltaTime*0.1f));
             }
 
@@ -39,7 +42,7 @@ public class SchaapScript : MonoBehaviour
             float herderx = H.transform.position.x;
             float herdery = H.transform.position.z;
             float afstandx = herderx - sheepx;
-            float afstandz = herdery - sheepy;
+            float afstandz = herdery - sheepz;
             float sdesiredx = - 0.5f * afstandx;
             float sdesiredz = - 0.5f * afstandz;
             float euclid = Mathf.Sqrt((afstandx * afstandx) + (afstandz * afstandz));
@@ -49,7 +52,7 @@ public class SchaapScript : MonoBehaviour
             float hondx = D.transform.position.x;
             float hondz = D.transform.position.z;
             float afstandhondx = hondx - sheepx;
-            float afstandhondz = hondz - sheepy;
+            float afstandhondz = hondz - sheepz;
             float afstandhond = Mathf.Sqrt((afstandhondx * afstandhondx) + (afstandhondz * afstandhondz));
 
             // De drie dichtsbijzijnde schapen voor schaapje zoeken en daarmee de sociale component
@@ -97,7 +100,7 @@ public class SchaapScript : MonoBehaviour
             float xafstanddesired = ((xafstand1 + xafstand2 + xafstand3) / 3);
             float zafstanddesired = ((zafstand1 + zafstand2 + zafstand3) / 3);
             float xverschil = (xafstanddesired - sheepx);
-            float zverschil = (zafstanddesired - sheepy);
+            float zverschil = (zafstanddesired - sheepz);
 
             // Het gemiddelde berekenen van de cognitieve en de sociale component
             float xkant = ((sdesiredx + xverschil) / 2);

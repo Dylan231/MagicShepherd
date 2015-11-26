@@ -24,6 +24,7 @@ public class HondScript : MonoBehaviour {
     {
         if (aan == false)
         {
+            transform.rotation = Quaternion.identity;
             var H = GameObject.FindGameObjectWithTag("Herder");
 
             float xdesired = H.transform.position.x;
@@ -35,57 +36,60 @@ public class HondScript : MonoBehaviour {
             float xrichting = xdesired - xnu;
             float zrichting = zdesired - znu;
 
-            transform.Translate(new Vector3(xrichting * Time.deltaTime, 0, zrichting * Time.deltaTime));
+            transform.Translate(new Vector3(xrichting*Time.deltaTime, 0, zrichting*Time.deltaTime));
         }
 
         //Vind het middelste schaap
         GameObject[] schapen = GameObject.FindGameObjectsWithTag("Schaap");
         int lengte = schapen.Length;
-        float afstandx;
-        float afstandz;
-        float totaleafstand = 0;
-        float kleinstetotaleafstand = 10000;
-        GameObject middelsteschaap = schapen[0];
-        GameObject tijdelijkschaap = schapen[0];
-
-        for (int j = 0; j < lengte; j++)
+        if (lengte > 0)
         {
-            GameObject schaapje = schapen[j];
+            float afstandx;
+            float afstandz;
+            float totaleafstand = 0;
+            float kleinstetotaleafstand = 10000;
+            GameObject middelsteschaap = schapen[0];
+            GameObject tijdelijkschaap = schapen[0];
 
-            for (int i = 0; i < lengte; i++)
+            for (int j = 0; j < lengte; j++)
             {
-                tijdelijkschaap = schapen[i];
-                afstandx = tijdelijkschaap.transform.position.x - schaapje.transform.position.x;
-                afstandz = tijdelijkschaap.transform.position.z - schaapje.transform.position.z;
-                float afstand = Mathf.Sqrt((afstandx * afstandx) + (afstandz * afstandz));
+                GameObject schaapje = schapen[j];
 
-                totaleafstand = totaleafstand + afstand;
+                for (int i = 0; i < lengte; i++)
+                {
+                    tijdelijkschaap = schapen[i];
+                    afstandx = tijdelijkschaap.transform.position.x - schaapje.transform.position.x;
+                    afstandz = tijdelijkschaap.transform.position.z - schaapje.transform.position.z;
+                    float afstand = Mathf.Sqrt((afstandx * afstandx) + (afstandz * afstandz));
+
+                    totaleafstand = totaleafstand + afstand;
+                }
+
+                if (totaleafstand < kleinstetotaleafstand)
+                {
+                    kleinstetotaleafstand = totaleafstand;
+                    middelsteschaap = tijdelijkschaap;
+                }
             }
 
-            if (totaleafstand < kleinstetotaleafstand)
+            schaapplekje = new Vector3(middelsteschaap.transform.position.x, 0.0f, middelsteschaap.transform.position.z);
+
+            if (Input.GetKey(KeyCode.Alpha2) && aantalhondengekocht > 0 && aan == false)
             {
-                kleinstetotaleafstand = totaleafstand;
-                middelsteschaap = tijdelijkschaap;
+                aan = true;
+                aantalhondengekocht = aantalhondengekocht - 1;
+                SetAantalHondenText();
+                StartCoroutine(Ronddraaien());
             }
-        }
 
-        schaapplekje = new Vector3(middelsteschaap.transform.position.x, 0.0f, middelsteschaap.transform.position.z);
+            if (aan == true)
+            {
+                transform.RotateAround(schaapplekje, Vector3.up, 90 * Time.deltaTime);
+            }
+            else
+            {
 
-        if (Input.GetKey(KeyCode.Alpha2) && aantalhondengekocht > 0 && aan == false)
-        {
-            aan = true;
-            aantalhondengekocht = aantalhondengekocht - 1;
-            SetAantalHondenText();
-            StartCoroutine(Ronddraaien());
-        }
-
-        if (aan == true)
-        {
-            transform.RotateAround(schaapplekje, Vector3.up, 20 * Time.deltaTime);
-        }
-        else
-        {
-            
+            }
         }
     }
 

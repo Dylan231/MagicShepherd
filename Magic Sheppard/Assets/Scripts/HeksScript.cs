@@ -2,9 +2,9 @@
 using System.Collections;
 
 public class HeksScript : MonoBehaviour {
-    bool keuze = false;
-    private int lengte;
-    private int chosenone;
+    private int keuze = 1;
+    private int lengte = 0;
+    private int chosenone = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -13,14 +13,18 @@ public class HeksScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (keuze == false)
+        if (keuze == 1)
         {
             KeuzeMaken();
         }
 
-        if (keuze == true)
+        if (keuze == 2)
         {
             InvokeRepeating("SchaapZoeken", 0, 0.2f);
+        }
+        if (keuze == 3)
+        {
+            InvokeRepeating("RandomPlekje", 0, 0.2f);
         }
         
 	}
@@ -30,27 +34,66 @@ public class HeksScript : MonoBehaviour {
         GameObject[] gos = GameObject.FindGameObjectsWithTag("Schaap");
         lengte = gos.Length;
 
-        System.Random r = new System.Random();
+        if (lengte > 0)
+        {
+            System.Random r = new System.Random();
 
-        chosenone = r.Next(lengte);
+            chosenone = r.Next(lengte);
 
-        keuze = true;
+            keuze = 2;
+        }
+        if (lengte == 0)
+        {
+            keuze = 3;
+        }
     }
 
     void SchaapZoeken()
     {
         GameObject[] gos = GameObject.FindGameObjectsWithTag("Schaap");
-        
-        GameObject o1 = gos[chosenone];
+        lengte = gos.Length;
 
-        if (o1.activeSelf == false)
+        if (chosenone >= lengte)
         {
-            keuze = false;
             CancelInvoke();
+            keuze = 1;
+            return;
         }
 
-        float xdesired = o1.transform.position.x;
-        float zdesired = o1.transform.position.z;
+        if (lengte > 0)
+        {
+            GameObject o1 = gos[chosenone];
+
+            if (o1.activeSelf == false)
+            {
+                keuze = 1;
+                CancelInvoke();
+            }
+
+            float xdesired = o1.transform.position.x;
+            float zdesired = o1.transform.position.z;
+
+            float xeigen = gameObject.transform.position.x;
+            float zeigen = gameObject.transform.position.z;
+
+            float xrichting = xdesired - xeigen;
+            float zrichting = zdesired - zeigen;
+
+            transform.Translate(new Vector3(xrichting * Time.deltaTime, 0, zrichting * Time.deltaTime));
+
+            if (Mathf.Abs(xdesired - xeigen) < 0.1 && Mathf.Abs(zdesired - zeigen) < 0.1)
+            {
+                DoodmakenSchaap();
+                keuze = 1;
+                CancelInvoke();
+            }
+        }
+    }
+
+    void RandomPlekje()
+    {
+        float xdesired = Random.Range(-40, 40);
+        float zdesired = Random.Range(-40, 40);
 
         float xeigen = gameObject.transform.position.x;
         float zeigen = gameObject.transform.position.z;
@@ -62,9 +105,7 @@ public class HeksScript : MonoBehaviour {
 
         if (Mathf.Abs(xdesired - xeigen) < 0.1 && Mathf.Abs(zdesired - zeigen) < 0.1)
         {
-            //doodmaken schaap
-            DoodmakenSchaap();
-            keuze = false;
+            keuze = 1;
             CancelInvoke();
         }
     }
