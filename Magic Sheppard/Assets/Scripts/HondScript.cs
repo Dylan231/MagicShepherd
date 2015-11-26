@@ -85,7 +85,26 @@ public class HondScript : MonoBehaviour {
             if (aan == true)
             {
                 transform.RotateAround(schaapplekje, Vector3.up, 90 * Time.deltaTime);
-            }
+                //middelsteschaap is heel aantrekkelijk als de hond rondjes loopt
+                float midplekx = middelsteschaap.transform.position.x;
+                float midplekz = middelsteschaap.transform.position.z;
+                GameObject[] andereschapen = GameObject.FindGameObjectsWithTag("Schaap");
+                int l1 = schapen.Length;
+                if (l1 > 0)
+                {
+                    for (int s = 0; s<l1; s++)
+                    {
+                        GameObject sch = andereschapen[s];
+                        float eigenschplekx = sch.transform.position.x;
+                        float eigenschplekz = sch.transform.position.z;
+
+                        float afstx = (midplekx - eigenschplekx)*0.3f;
+                        float afstz = (midplekz - eigenschplekz)*0.3f;
+
+                        sch.transform.Translate(new Vector3(afstx * Time.deltaTime, 0.0f, afstz * Time.deltaTime));
+                    }
+                }
+                }
             else
             {
 

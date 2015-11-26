@@ -110,6 +110,8 @@ public class SchaapScript : MonoBehaviour
             if (afstandhond <=5)
             {
                 herdernietdichtbij = false;
+                //xverschil = xverschil * 2;
+                //zverschil = zverschil * 2;
                 schaapje.transform.Translate(new Vector3(xverschil * Time.deltaTime*speed, 0.0f, zverschil * Time.deltaTime*speed));
             }
             else
