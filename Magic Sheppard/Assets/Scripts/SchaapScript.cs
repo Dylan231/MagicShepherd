@@ -54,11 +54,11 @@ public class SchaapScript : MonoBehaviour
 
             // De drie dichtsbijzijnde schapen voor schaapje zoeken en daarmee de sociale component
             float besteafstand1 = 100;
-            GameObject schaapbest1 = goss[1];
+            GameObject schaapbest1 = goss[0];
             float besteafstand2 = 100;
-            GameObject schaapbest2 = goss[2];
+            GameObject schaapbest2 = goss[0];
             float besteafstand3 = 100;
-            GameObject schaapbest3 = goss[3];
+            GameObject schaapbest3 = goss[0];
             for (int i = 0; i < lengte; i++)
             {
                 GameObject tijdelijkschaap = goss[i];
@@ -125,7 +125,22 @@ public class SchaapScript : MonoBehaviour
                 herdernietdichtbij = true;
             }
         }
+        GameObject[] gevangen = GameObject.FindGameObjectsWithTag("GevangenSchaap");
+        int le = gevangen.Length;
+        for (int k = 0; k < le; k++)
+        {
+            GameObject gevschaap = gevangen[k];
+            float sheepx = gevschaap.transform.position.x;
+            float sheepz = gevschaap.transform.position.z;
+            float randx = Random.Range(-20,-40);
+            float randz = Random.Range(20,40);
+            float xrichting = randx - sheepx;
+            float zrichting = randz - sheepz;
+            gevschaap.transform.Translate(new Vector3(xrichting * speed * Time.deltaTime * 0.1f, 0.0f, zrichting * speed * Time.deltaTime * 0.1f));
+        }
     }
+
+
 }
 // closes update. 
 
