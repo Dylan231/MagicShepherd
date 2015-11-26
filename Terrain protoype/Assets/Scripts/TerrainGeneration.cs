@@ -9,6 +9,8 @@ public class TerrainGeneration : MonoBehaviour {
 	public int aantalVijvers;
 	public int aantalBomen;
 	public int aantalBosjes;
+	public int levelsizex = 400;
+	public int levelsizez = 400;
 	public float[] positionsx;
 	public float[] positionsz;
 
@@ -18,7 +20,8 @@ public class TerrainGeneration : MonoBehaviour {
 		float[] positionsz = new  float[aantalHeuvels];
 
 		int heightmapwidth = terraindata.heightmapWidth-1;
-		int heightmapheigth = terraindata.heightmapHeight-1;
+		int heightmapheigth = terraindata.heightmapHeight - 1;
+
 		float beginhoogte = 0.003f;
 		float[,] heights = new float[heightmapwidth + 1, heightmapheigth + 1];
 
@@ -60,7 +63,6 @@ public class TerrainGeneration : MonoBehaviour {
 			int beginz = (int) (randomz*(float)heightmapheigth);
 			float realx = ((float)beginx/(float)heightmapwidth)*terraindata.size.x;
 			float realz = ((float)beginz/(float)heightmapheigth)*terraindata.size.z;
-			print (realx + " " + realz);
 			int slootbreedte = (int)(Random.Range(50,70));
 			int slootlengte = (int)(Random.Range(300,400));
 			GameObject gras = Resources.Load ("FernMesh") as GameObject;
@@ -75,11 +77,14 @@ public class TerrainGeneration : MonoBehaviour {
 						}
 					}
 				}
-
-				for(int k = 0; k < (int)((((float)slootlengte/(float)heightmapwidth)*terraindata.size.x)/lengteGras); k++){
-					GameObject nieuwgras = Instantiate (gras);
-					nieuwgras.transform.position = new Vector3(realz, 2, realx + 0.5f*k*lengteGras);
-					nieuwgras.transform.localScale = new Vector3(800,800,800);
+				//STAAT UIT
+				for(int k = 0; k < 10; k++){
+					if(false){
+						GameObject nieuwgras = Instantiate (gras);
+						nieuwgras.transform.position = new Vector3(realz, 2, realx + Random.value*k*lengteGras);
+						nieuwgras.transform.localScale = new Vector3(500,500,500);
+						nieuwgras.transform.eulerAngles = new Vector3(0,Random.value*Mathf.PI,0);
+					}
 				}
 			}
 			else{
@@ -158,8 +163,8 @@ public class TerrainGeneration : MonoBehaviour {
 	void GenerateTrees(){
 		GameObject hekPrefab = Resources.Load ("Hekje") as GameObject;
 		float lengteHek = hekPrefab.GetComponent<Renderer>().bounds.size.x;
-		int aantalhekjesx = (int)(terraindata.size.x / lengteHek);
-		int aantalhekjesz = (int)(terraindata.size.z / lengteHek);
+		int aantalhekjesx = (int)(levelsizex / lengteHek);
+		int aantalhekjesz = (int)(levelsizez / lengteHek);
 		for (int i = 1; i < aantalhekjesx+1; i++) {
 			GameObject hek = Instantiate(hekPrefab);
 			hek.transform.position = new Vector3 (0+ i*lengteHek, terrain.transform.position.y, 0);
@@ -175,7 +180,7 @@ public class TerrainGeneration : MonoBehaviour {
 			hek2.transform.eulerAngles = new Vector3(0,90,0);
 		}
 		
-		GameObject bosje = Resources.Load ("Bush1") as GameObject;
+		GameObject bosje = Resources.Load ("sycamore") as GameObject;
 		GameObject boom = Resources.Load ("sycamore") as GameObject;
 		
 		for(int i = 0; i < aantalBosjes; i++){
