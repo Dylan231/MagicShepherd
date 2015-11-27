@@ -36,13 +36,31 @@ public class AssignSplatMap : MonoBehaviour {
 				
 				// CHANGE THE RULES BELOW TO SET THE WEIGHTS OF EACH TEXTURE ON WHATEVER RULES YOU WANT
 
-				if(height<1.25){
-					splatWeights[0] = 0;
-					splatWeights[1] = 1;
-				}
-				else{
+				if(height<0){
 					splatWeights[0] = 1;
 					splatWeights[1] = 0;
+					splatWeights[2] = 0;
+					splatWeights[3] = 0;
+
+				}
+				else if(height>=0&&height<50){
+					splatWeights[0] = 0;
+					splatWeights[1] = 1;
+					splatWeights[2] = 0;
+					splatWeights[3] = 0;
+
+				}
+				else if(height>40&&height<150){
+					splatWeights[0] = 0;
+					splatWeights[1] = 0;
+					splatWeights[2] = 1;
+					splatWeights[3] = 0;
+				}
+				else{
+					splatWeights[0] = 0;
+					splatWeights[1] = 0;
+					splatWeights[2] = 0;
+					splatWeights[3] = 1;
 				}
 
 				

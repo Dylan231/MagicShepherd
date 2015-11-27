@@ -162,9 +162,9 @@ public class TerrainGeneration : MonoBehaviour {
 	}
 	void GenerateTrees(){
 		GameObject hekPrefab = Resources.Load ("Hekje") as GameObject;
-		float lengteHek = hekPrefab.GetComponent<Renderer>().bounds.size.x;
-		int aantalhekjesx = (int)(levelsizex / lengteHek);
-		int aantalhekjesz = (int)(levelsizez / lengteHek);
+		float lengteHek = hekPrefab.GetComponent<Renderer>().bounds.size.x*0.95f;
+		int aantalhekjesx = (int)(terraindata.size.x / lengteHek);
+		int aantalhekjesz = (int)(terraindata.size.z / lengteHek);
 		for (int i = 1; i < aantalhekjesx+1; i++) {
 			GameObject hek = Instantiate(hekPrefab);
 			hek.transform.position = new Vector3 (0+ i*lengteHek, terrain.transform.position.y, 0);
@@ -185,7 +185,7 @@ public class TerrainGeneration : MonoBehaviour {
 		
 		for(int i = 0; i < aantalBosjes; i++){
 			GameObject bosje1 = Instantiate(bosje);
-			bosje1.transform.position = new Vector3((float)(Random.value*terraindata.size.x),100,(float)(Random.value*terraindata.size.z));
+			bosje1.transform.position = new Vector3((float)(Random.value*terraindata.size.x),-10,(float)(Random.value*terraindata.size.z));
 			RaycastHit test;
 			Ray testray = new Ray(bosje1.transform.position, Vector3.down);
 			if (Physics.Raycast(testray, out test)) {
@@ -195,7 +195,7 @@ public class TerrainGeneration : MonoBehaviour {
 		
 		for(int i = 0; i < aantalBomen; i++){
 			GameObject boom1 = Instantiate(boom);
-			boom1.transform.position = new Vector3((float)(Random.value*terraindata.size.x),100,(float)(Random.value*terraindata.size.z));
+			boom1.transform.position = new Vector3((float)(Random.value*terraindata.size.x),-10,(float)(Random.value*terraindata.size.z));
 			RaycastHit test;
 			Ray testray = new Ray(boom1.transform.position, Vector3.down);
 			if (Physics.Raycast(testray, out test)) {
