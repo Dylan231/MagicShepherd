@@ -5,9 +5,11 @@ public class HeksScript : MonoBehaviour {
     private int keuze = 1;
     private int lengte = 0;
     private int chosenone = 0;
+    float xdesiredr;
+    float zdesiredr;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 	
 	}
 	
@@ -36,14 +38,32 @@ public class HeksScript : MonoBehaviour {
 
         if (lengte > 0)
         {
-            System.Random r = new System.Random();
+            System.Random rn = new System.Random();
 
-            chosenone = r.Next(lengte);
+            int k = rn.Next(2);
 
-            keuze = 2;
+            if (k == 0)
+            {
+                System.Random r = new System.Random();
+
+                chosenone = r.Next(lengte);
+
+                keuze = 2;
+            }
+            else
+            {
+                xdesiredr = Random.Range(-40, 40); //de range is de grootte van het weiland
+                zdesiredr = Random.Range(-40, 40); //de range is de grootte van het weiland 
+
+                keuze = 3;
+            }
+            
         }
         if (lengte == 0)
         {
+            xdesiredr = Random.Range(-40, 40);//de range is de grootte van het weiland
+            zdesiredr = Random.Range(-40, 40);//de range is de grootte van het weiland
+
             keuze = 3;
         }
     }
@@ -92,18 +112,15 @@ public class HeksScript : MonoBehaviour {
 
     void RandomPlekje()
     {
-        float xdesired = Random.Range(-40, 40);
-        float zdesired = Random.Range(-40, 40);
-
         float xeigen = gameObject.transform.position.x;
         float zeigen = gameObject.transform.position.z;
 
-        float xrichting = xdesired - xeigen;
-        float zrichting = zdesired - zeigen;
+        float xrichting = xdesiredr - xeigen;
+        float zrichting = zdesiredr - zeigen;
 
         transform.Translate(new Vector3(xrichting * Time.deltaTime, 0, zrichting * Time.deltaTime));
 
-        if (Mathf.Abs(xdesired - xeigen) < 0.1 && Mathf.Abs(zdesired - zeigen) < 0.1)
+        if (Mathf.Abs(xdesiredr - xeigen) < 0.1 && Mathf.Abs(zdesiredr - zeigen) < 0.1)
         {
             keuze = 1;
             CancelInvoke();
