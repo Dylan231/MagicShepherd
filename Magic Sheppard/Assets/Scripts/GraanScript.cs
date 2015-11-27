@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class GraanScript : MonoBehaviour {
-    public int aantalgraangekocht = GraanWinkelScript.aantalgraangekocht;
+    private int aantalgraangekocht = GraanWinkelScript.aantalgraangekocht;
     public Text AantalGraanText;
     public float speed = 1;
 

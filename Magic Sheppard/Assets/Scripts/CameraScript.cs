@@ -14,4 +14,9 @@ public class CameraScript : MonoBehaviour {
 
 			transform.Rotate (new Vector3 (0, speed * Time.deltaTime * Input.GetAxis ("Mouse X")));
 	}
+
+    public void OnMouseOver()
+    {
+         Application.LoadLevel("Game");
+    }
 }

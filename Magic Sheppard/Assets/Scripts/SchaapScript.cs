@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using UnityEngine.UI;
 
 public class SchaapScript : MonoBehaviour
 {
     public float speed = 1;
     private bool herdernietdichtbij = true;
+
 
     void Start()
     {
@@ -13,6 +15,7 @@ public class SchaapScript : MonoBehaviour
         //        float randx = Random.Range(0f, 10f);
         //        float randz = Random.Range(0f, 10f);
         //        K.transform.position = new Vector3(randx, 0, randz);
+
     }
 
     void Update()
@@ -143,7 +146,9 @@ public class SchaapScript : MonoBehaviour
             float zrichting = randz - sheepz;
             gevschaap.transform.Translate(new Vector3(xrichting * speed * Time.deltaTime * 0.1f, 0.0f, zrichting * speed * Time.deltaTime * 0.1f));
         }
+
     }
+
 
 
 }

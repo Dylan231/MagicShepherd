@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class HondScript : MonoBehaviour {
-    public int aantalhondengekocht = HondWinkelScript.aantalhondgekocht;
+    private int aantalhondengekocht = HondWinkelScript.aantalhondgekocht;
     public Text AantalHondenGekocht;
     bool aan = false;
     //float xbegin;

@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class GiftigestruikScript : MonoBehaviour {
+    private GameObject schaap;
 
 	// Use this for initialization
 	void Start () {
@@ -17,10 +18,12 @@ public class GiftigestruikScript : MonoBehaviour {
     {
         if (other.gameObject.CompareTag("Schaap"))
         {
-            GameObject schaap = other.gameObject;
+            schaap = other.gameObject;
             schaap.tag = "ZiekSchaap";
             schaap.GetComponent<Renderer>().material.color = Color.white;
             gameObject.SetActive(false);
+            
         }
     }
+
 }
