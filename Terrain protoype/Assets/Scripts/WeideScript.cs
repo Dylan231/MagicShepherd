@@ -3,11 +3,7 @@ using System.Collections;
 
 public class WeideScript : MonoBehaviour {
 	public Terrain terrain;
-	static GameObject hekPrefab = Resources.Load ("Hekje") as GameObject;
-	static float lengteHek = hekPrefab.GetComponent<Renderer>().bounds.size.x;
-	public static int levelgrootte;
-	public int levelsizex = (int)(levelgrootte*lengteHek);
-	public int levelsizez = (int)(levelgrootte*lengteHek);
+	public int levelgrootte;
 	public int aantalHeuvels;
 	public int aantalVijvers;
 	public int aantalBergen;
@@ -19,7 +15,10 @@ public class WeideScript : MonoBehaviour {
 		int heightmapz = terraindata.heightmapHeight;
 		float [] positionsx = new float[aantalHeuvels];
 		float[] positionsz = new  float[aantalHeuvels];
-
+		GameObject hekPrefab = Resources.Load ("Hekje") as GameObject;
+		float lengteHek = hekPrefab.GetComponent<Renderer>().bounds.size.x;
+		int levelsizex = (int)(levelgrootte*lengteHek);
+		int levelsizez = (int)(levelgrootte*lengteHek);
 		float beginhoogte = 0.008f;
 		float[,] heights = new float[heightmapx, heightmapz];
 		float terrainsizex = terraindata.size.x;
@@ -177,8 +176,20 @@ public class WeideScript : MonoBehaviour {
 			if (Physics.Raycast(testray, out test)) {
 				hek2.transform.Translate(new Vector3(0,-test.distance,0));
 			}
+			if(i == (int)(aantalhekjesx/2)){
+				hek2.tag = "Hek";
+			}
 		}
-		for (int i = 0; i < aantalhekjesz+1; i++) {
+		for (int i = 1; i < aantalhekjesx+2; i++) {
+			GameObject hek2 = Instantiate(hekPrefab);
+			hek2.transform.position = new Vector3 (beginx + i * lengteHek, 100, eindz+2*lengteHek);
+			RaycastHit test;
+			Ray testray = new Ray(hek2.transform.position, Vector3.down);
+			if (Physics.Raycast(testray, out test)) {
+				hek2.transform.Translate(new Vector3(0,-test.distance,0));
+			}
+		}
+		for (int i = 0; i < aantalhekjesz+3; i++) {
 			GameObject hek = Instantiate(hekPrefab);
 			hek.transform.position = new Vector3 (beginx, 100, beginz+ i*lengteHek);
 			RaycastHit test;
@@ -188,7 +199,7 @@ public class WeideScript : MonoBehaviour {
 			}
 			hek.transform.eulerAngles = new Vector3(0,90,0);
 		}
-		for (int i = 0; i < aantalhekjesz+1; i++) {
+		for (int i = 0; i < aantalhekjesz+3; i++) {
 			GameObject hek2 = Instantiate(hekPrefab);
 			hek2.transform.position = new Vector3 (eindx, 100, beginz + i*lengteHek);
 			RaycastHit test;
@@ -239,7 +250,12 @@ public class WeideScript : MonoBehaviour {
 	}
 	// Use this for initialization
 	void Start () {
-		generateTerrain ();
+		generateTerrain ();             
+		GameObject openhek = GameObject.FindGameObjectsWithTag ("Hek") [0];
+		if (Input.GetKeyDown (KeyCode.A)) {
+			openhek.transform.eulerAngles = new Vector3 (0, 90, 0);
+		}
+
 	}
 	
 	// Update is called once per frame
