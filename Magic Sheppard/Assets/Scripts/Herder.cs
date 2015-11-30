@@ -9,9 +9,11 @@ public class Herder : MonoBehaviour {
     float positiecameray = 4;
     float positiecameraz = 1;
     public Text Ziekschaap;
+    public Text Wintext;
     // Use this for initialization
     void Start () {
         Ziekschaap.text = "";
+        Wintext.text = "";
     }
 	
 	// Update is called once per frame
@@ -80,6 +82,14 @@ public class Herder : MonoBehaviour {
                     ziekschaap.GetComponent<Renderer>().material.color = Color.grey;
                 }
             }
+        }
+
+        GameObject[] schapenlijst = GameObject.FindGameObjectsWithTag("Schaap");
+        int isl = schapenlijst.Length;
+
+        if (isl == 0 && leng == 0)
+        {
+            Wintext.text = "YOU WIN!";
         }
     }
 

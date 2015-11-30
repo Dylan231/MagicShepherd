@@ -34,10 +34,11 @@ public class SchaapScript : MonoBehaviour
             {
                 float randx = Random.Range(-10f, 10f);
                 float randz = Random.Range(-10f, 10f);
-                //float xricht = randx - sheepx;
-                //float zricht = randz - sheepz;
-                //schaapje.transform.Translate(new Vector3(xricht * speed * Time.deltaTime * 0.1f, 0.0f, zricht * speed * Time.deltaTime * 0.1f));
+                
                 schaapje.transform.Translate(new Vector3(randx*speed*Time.deltaTime*0.1f, 0.0f, randz*speed*Time.deltaTime*0.1f));
+                //Vector3 direction1 = new Vector3(randx * speed * Time.deltaTime * 0.1f, 0.0f, randz * speed * Time.deltaTime * 0.1f);
+                //Quaternion lookrotation = Quaternion.LookRotation(direction1);
+                //transform.rotation = Quaternion.Slerp(transform.rotation, lookrotation, Time.deltaTime);
             }
 
             // 1. De positie bepalen van de herder, 2. de afstand tussen schaapje en herder, 3. de cognitieve component
