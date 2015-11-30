@@ -11,10 +11,6 @@ public class SchaapScript : MonoBehaviour
 
     void Start()
     {
-        //        var K = GameObject.FindGameObjectWithTag("Kudde");
-        //        float randx = Random.Range(0f, 10f);
-        //        float randz = Random.Range(0f, 10f);
-        //        K.transform.position = new Vector3(randx, 0, randz);
 
     }
 
@@ -150,9 +146,6 @@ public class SchaapScript : MonoBehaviour
 
     }
 
-
-
 }
-// closes update. 
 
 

@@ -27,8 +27,8 @@ public class HondScript : MonoBehaviour {
             transform.rotation = Quaternion.identity;
             var H = GameObject.FindGameObjectWithTag("Herder");
 
-            float xdesired = H.transform.position.x;
-            float zdesired = H.transform.position.z;
+            float xdesired = H.transform.position.x - 2;
+            float zdesired = H.transform.position.z - 2;
 
             float xnu = gameObject.transform.position.x;
             float znu = gameObject.transform.position.z;
