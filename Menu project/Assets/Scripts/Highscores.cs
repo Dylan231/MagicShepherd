@@ -31,28 +31,28 @@ public class Highscores : MonoBehaviour
  public class HighScoreManager : MonoBehaviour
 {
 
-    private static HighScoreManager m_instance;
+    private static HighScoreManager instantie;
     private const int LeaderboardLength = 10;
 
     public static HighScoreManager _instance
     {
         get
         {
-            if (m_instance == null)
+            if (instantie == null)
             {
-                m_instance = new GameObject("HighScoreManager").AddComponent<HighScoreManager>();
+                instantie = new GameObject("HighScoreManager").AddComponent<HighScoreManager>();
             }
-            return m_instance;
+            return instantie;
         }
     }
 
     void Awake()
     {
-        if (m_instance == null)
+        if (instantie == null)
         {
-            m_instance = this;
+            instantie = this;
         }
-        else if (m_instance != this)
+        else if (instantie != this)
             Destroy(gameObject);
 
         DontDestroyOnLoad(gameObject);
