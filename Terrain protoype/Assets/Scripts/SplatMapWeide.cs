@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Linq; // used for Sum of array
 
-public class AssignSplatMap : MonoBehaviour {
+public class SplatMapWeide : MonoBehaviour {
 	public Terrain terrain;
 	void Start () {
 		// Get the attached terrain component
@@ -43,14 +43,14 @@ public class AssignSplatMap : MonoBehaviour {
 					splatWeights[3] = 0;
 
 				}
-				else if(height>=0&&height<50){
+				else if(height>=0&&height<35){
 					splatWeights[0] = 0;
 					splatWeights[1] = 1;
 					splatWeights[2] = 0;
 					splatWeights[3] = 0;
 
 				}
-				else if(height>40&&height<150){
+				else if(height>35&&height<150){
 					splatWeights[0] = 0;
 					splatWeights[1] = 0;
 					splatWeights[2] = 1;
