@@ -87,9 +87,17 @@ public class Herder : MonoBehaviour {
         GameObject[] schapenlijst = GameObject.FindGameObjectsWithTag("Schaap");
         int isl = schapenlijst.Length;
 
-        if (isl == 0 && leng == 0)
+        GameObject[] gevschapen = GameObject.FindGameObjectsWithTag("GevangenSchaap");
+        int gvsl = gevschapen.Length;
+
+        if (isl == 0 && leng == 0 && gvsl > 0)
         {
             Wintext.text = "YOU WIN!";
+        }
+        
+        if (isl == 0 && leng == 0 && gvsl == 0)
+        {
+            Wintext.text = "GAME OVER";
         }
     }
 
