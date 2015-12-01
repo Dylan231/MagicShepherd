@@ -9,11 +9,9 @@ public class HeksScript : MonoBehaviour {
     float zdesiredr;
 
     // Use this for initialization
-    void Start ()
-    {
-        GameObject S = GameObject.FindGameObjectWithTag("Schieten");
-        S.GetComponent<ParticleSystem>().enableEmission = false;
-    }
+    void Start () {
+	
+	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -139,18 +137,9 @@ public class HeksScript : MonoBehaviour {
 
         if (r2 == 0)
         {
-            GameObject S = GameObject.FindGameObjectWithTag("Schieten");
-            S.GetComponent<ParticleSystem>().enableEmission = true;
-            StartCoroutine(TijdjeSchieten());
+            //doodschieten effect
             o1.SetActive(false);
         }
-    }
-
-    IEnumerator TijdjeSchieten()
-    {
-        yield return new WaitForSeconds(0.5f);
-        GameObject S = GameObject.FindGameObjectWithTag("Schieten");
-        S.GetComponent<ParticleSystem>().enableEmission = false;
     }
 }
 
