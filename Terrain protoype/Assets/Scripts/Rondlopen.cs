@@ -11,6 +11,9 @@ public class Rondlopen : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (Input.GetKey (KeyCode.A)) {
+			WeideScript.openhekje();
+		}
 		if(Input.GetKey(KeyCode.RightArrow))
 		{
 			transform.Rotate(new Vector3(0,rotatespeed * Time.deltaTime,0));

@@ -16,6 +16,8 @@ public class WeideScript : MonoBehaviour {
 		float [] positionsx = new float[aantalHeuvels];
 		float[] positionsz = new  float[aantalHeuvels];
 		GameObject hekPrefab = Resources.Load ("Hekje") as GameObject;
+		GameObject Schaap = Resources.Load ("sheep") as GameObject;
+		GameObject Steen = Resources.Load ("RockMesh") as GameObject;
 		float lengteHek = hekPrefab.GetComponent<Renderer>().bounds.size.x;
 		int levelsizex = (int)(levelgrootte*lengteHek);
 		int levelsizez = (int)(levelgrootte*lengteHek);
@@ -47,15 +49,15 @@ public class WeideScript : MonoBehaviour {
 
 		// heuvels genereren in het level
 		for (int i = 0; i < aantalHeuvels; i++) {
-			int minradius = (int)(terrainsizex/90);
-			int maxradius = (int)(terrainsizex/70);
+			int minradius = (int)(terrainsizex/55);
+			int maxradius = (int)(terrainsizex/40);
 			int heuvelradius = (int) (Random.Range(minradius,maxradius));
 			int xbegin = (int) (Random.Range (hmlevelbeginx+maxradius,hmleveleindx-maxradius));
 			int zbegin = (int) (Random.Range (hmlevelbeginz+maxradius,hmleveleindz-maxradius));
 			positionsx[i] = xbegin;
 			positionsz[i] = zbegin;
-			float top = 0.06f;
-			float helling = (float)(top*(0.01f/0.03f));
+			float top = 0.04f;
+			float helling = (float)(top*(0.01f/0.05f));
 			for(int r = 1; r < heuvelradius; r++){
 				for(int d = 0; d < 360; d++){
 					int x = xbegin + (int)(r*Mathf.Cos(d*Mathf.PI/180));
@@ -157,6 +159,7 @@ public class WeideScript : MonoBehaviour {
 			}
 		}
 
+		//hekjes spawnen
 		int aantalhekjesx = (int)(levelsizex / lengteHek);
 		int aantalhekjesz = (int)(levelsizez / lengteHek);
 		for (int i = 1; i < aantalhekjesx+2; i++) {
@@ -188,6 +191,10 @@ public class WeideScript : MonoBehaviour {
 			if (Physics.Raycast(testray, out test)) {
 				hek2.transform.Translate(new Vector3(0,-test.distance,0));
 			}
+			GameObject schaap = Instantiate (Schaap);
+			schaap.transform.position = new Vector3 (beginx + i * lengteHek,100 -test.distance, eindz + lengteHek);
+			schaap.transform.localScale = new Vector3(3,3,3);
+			schaap.transform.eulerAngles = new Vector3(0,Random.value*360,0);
 		}
 		for (int i = 0; i < aantalhekjesz+3; i++) {
 			GameObject hek = Instantiate(hekPrefab);
@@ -209,7 +216,18 @@ public class WeideScript : MonoBehaviour {
 			}
 			hek2.transform.eulerAngles = new Vector3(0,90,0);
 		}
-		terraindata.SetHeights (0, 0, heights);
+
+		//stenen spawnen
+		for(int i = 0; i<3;i++){
+		GameObject steen = Instantiate(Steen);
+			steen.transform.position = new Vector3(Random.Range(0,terrainsizex),1000,Random.Range(0,terrainsizez));
+			RaycastHit test;
+			Ray ray = new Ray(steen.transform.position, Vector3.down);
+			if (Physics.Raycast(ray, out test)) {
+				steen.transform.Translate(new Vector3(0,-test.distance,0));
+			}
+		}
+			terraindata.SetHeights (0, 0, heights);
 		for (int i = 0; i < 4; i++) {
 			Smooth();
 		}
@@ -248,13 +266,14 @@ public class WeideScript : MonoBehaviour {
 		
 		terrain.terrainData.SetHeights(0, 0, height);
 	}
+	public static void openhekje(){
+		GameObject openhek = GameObject.FindGameObjectsWithTag ("Hek") [0];
+		openhek.transform.eulerAngles = new Vector3 (0, 90, 0);
+	}
 	// Use this for initialization
 	void Start () {
-		generateTerrain ();             
-		GameObject openhek = GameObject.FindGameObjectsWithTag ("Hek") [0];
-		if (Input.GetKeyDown (KeyCode.A)) {
-			openhek.transform.eulerAngles = new Vector3 (0, 90, 0);
-		}
+		generateTerrain ();          
+
 
 	}
 	
