@@ -1,2 +1,0 @@
-# MagicShepherd
-minor game project
